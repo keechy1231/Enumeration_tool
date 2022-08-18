@@ -1,4 +1,4 @@
-#enumerate.py Version 0.1 By Redacted
+#enumerate.py Version 0.1 By Keechy
 
 #import required libaries
 import argparse
@@ -92,4 +92,13 @@ h_gobuster = ('http://'+host)
 #main()
 
 #for testing
-print (f"Enumerating {host} \nnmap version and script scan will be saved as {filename}nmap\nnmap full port scan will be save as {filename}allports\ngobuster scan will be saved as {filename}gobuster")
+print (f"""Scanning {host} \nnmap version and script scan will be saved as {filename}_nmap\nnmap full port scan will be save as {filename}_allports
+gobuster scan will be saved as {filename}_gobuster""")
+
+
+def file(file):
+	nmapfile = open(f"{file}_nmap","w+")
+	nmapallports = open(f"{file}_allports","w+")
+	gobusterfile = open(f"{file}_gobuster" , "w+")
+
+file(filename)
