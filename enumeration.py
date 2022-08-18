@@ -15,11 +15,8 @@ def main():
 	
 
 #convert file name to work with nmap and gobuster	
-def convert_filename(h, f):
-		f_nmap = (f +'nmap')
-		f_allports = (f + 'allports')
-		f_gobuster = (f + 'gobuster')
-		h_gobuster = ('http://'+ host)
+#def convert_filename(h, f):
+	#print (h_gobuster)
 		
 def nmap_scan(a,b):
 	#create function for the first nmap scan 
@@ -51,7 +48,15 @@ requiredName.add_argument('host',
 					type = str,
 					nargs = '+'
 					)
+
 					
+requiredName.add_argument('filename',
+					help = 'Select destination file name',
+					type = str,
+					nargs='+'
+					)
+
+
 #Optional arguments
 parser.add_argument('-v', '--verbose',
 					dest = 'verbose',
@@ -64,12 +69,7 @@ parser.add_argument('-q', '--quiet',
 					dest = 'quiet',
 					help = 'Surpress Output'
 					)
-					
-parser.add_argument('-f', '--outfile',
-					action = 'store_true',
-					dest = 'outfile',
-					help = 'Select destination file name'
-					)
+
 					
 parser.add_argument('--version', 
 					action='version', 
@@ -78,10 +78,18 @@ parser.add_argument('--version',
 
 args = parser.parse_args()
 
+host = (str(args.host)).lstrip("['").rstrip("']")
+filename =  (str(args.filename)).lstrip("['").rstrip("']")
+#f_nmap = (str(f) +'nmap')
+#f_allports = (str(f) + 'allports')
+#f_gobuster = (str(f) + 'gobuster')
+h_gobuster = ('http://'+host)
+
+
 #run the main function
+
+
 #main()
 
 #for testing
-print (f"Enumerating {args.host}")
-
-print (f_nmap)
+print (f"Enumerating {host} \nnmap version and script scan will be saved as {filename}nmap\nnmap full port scan will be save as {filename}allports\ngobuster scan will be saved as {filename}gobuster")
