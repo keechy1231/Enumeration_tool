@@ -31,7 +31,7 @@ def nmap_allports_scan(c,d):
 
 def gobuster_scan(e, g):
 	#create the gobuster scan
-	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , e ,'-w' '/home/keechy/test' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None) 
+	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , e ,'-w' '/usr/share/wordlist/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None) 
 	gobuster
 
 parser = argparse.ArgumentParser()
