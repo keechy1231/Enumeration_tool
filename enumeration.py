@@ -22,28 +22,38 @@ def file(file):
 	nmapallports = open(f'{file}_allports','w+')
 	gobusterfile = open(f"{file}_gobuster" , 'w+')
 
-def gobuster_scan(host, outfile):
+def gobuster_scan(host, outfile, quiet):
 	#create the gobuster scan
-	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt', '-o',outfile ], shell=False , stdin=None, stderr=None) 
+	if quiet is False:
+		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt', '-o',outfile ], shell=False , stdin=None, stderr=None) 
+	else:
+		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=open(outfile, 'w', 1)) 	
+	
 	gobuster
 
-def main(host, file_a, file_b, url, file_c,file_d):
+def main(host, file_a, file_b, url, file_c,file_d, quiet):
 	#ascii art of some sort to go here?
 	print (f"""Scanning {host} \nnmap version and script scan will be saved as {file_a}\nnmap full port scan will be saved as {file_b}
 gobuster scan will be saved as {file_c}\n\n\n\n""")
 	file(file_d)
-	nmap_scan(host, file_a)
-	gobuster_scan(url, file_c)
-	nmap_allports_scan(host, file_b)
+	nmap_scan(host, file_a, quiet)
+	gobuster_scan(url, file_c, quiet)
+	nmap_allports_scan(host, file_b, quiet)
 
-def nmap_scan(host,outfile):
+def nmap_scan(host,outfile, quiet):
 	#nmap scan 
-	nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None )
+	if quiet is False:
+		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None )
+	else:
+		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None, stdout=('/dev/null') )
 	nmap
 	
-def nmap_allports_scan(host,outfile):
+def nmap_allports_scan(host,outfile,quiet):
 	#nmap scan all ports
-	nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None )
+	if quiet is False:
+		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None )
+	else:
+		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None, stdout=('/dev/null') )
 	nmap_allport
 
 #Input arguments start here
@@ -87,6 +97,7 @@ args = parser.parse_args()
 
 filename = convert_file(args.filename)
 host = convert_host(args.host)
+quiet = args.quiet
 
 f_nmap = (str(filename) +'_nmap')
 f_allports = (str(filename) + '_allports')
@@ -95,4 +106,4 @@ url = ('http://'+host)
 
 
 
-main(host, f_nmap, f_allports, url, f_gobuster, filename)
+main(host, f_nmap, f_allports, url, f_gobuster, filename, quiet)
