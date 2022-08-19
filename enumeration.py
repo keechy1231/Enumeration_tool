@@ -2,7 +2,7 @@
 #enumerate.py Version 0.5 By Redacted
 #Import required libaries
 
-#todo get gobuster to output to file and terminal
+#todo get gobuster to output to file and terminal - currently only ouputting to file
 
 import argparse
 import subprocess
@@ -15,12 +15,6 @@ def convert_host(host):
 	host = (str(host)).lstrip("['").rstrip("']")
 	return host
 		
-def convert_filenames(host,file):
-	#currently not being used until I learn how to get multiple variables out of this function
-	f_nmap = (str(file) +'_nmap')
-	f_allports = (str(file) + '_allports')
-	f_gobuster = (str(file) + '_gobuster')
-	h_gobuster = ('http://'+host)
 
 def file(file):
 	#create files for the functions to save stdout
@@ -30,7 +24,7 @@ def file(file):
 
 def gobuster_scan(host, outfile):
 	#create the gobuster scan
-	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlist/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=True , stdin=None, stderr=None, stdout=open(outfile,'w',1)) 
+	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=open(outfile,'w',1)) 
 	gobuster
 
 def main(host, file_a, file_b, url, file_c,file_d):
@@ -91,32 +85,14 @@ parser.add_argument('--version',
 
 args = parser.parse_args()
 
-
-#testing function variable call
 filename = convert_file(args.filename)
 host = convert_host(args.host)
-
-#Change inputs to strings and create files for outputs
-#host = (str(args.host)).lstrip("['").rstrip("']")
-#filename =  (str(args.filename)).lstrip("['").rstrip("']")
 
 f_nmap = (str(filename) +'_nmap')
 f_allports = (str(filename) + '_allports')
 f_gobuster = (str(filename) + '_gobuster')
 url = ('http://'+host)
 
-#nmap_scan(host, f_nmap)
-#nmap_allports_scan(host, f_allports)
-#gobuster_scan(h_gobuster, f_gobuster)
-#file(filename)
+
 
 main(host, f_nmap, f_allports, url, f_gobuster, filename)
-
-#print (f"""Scanning {host} \nnmap version and script scan will be saved as {filename}_nmap\nnmap full port scan will be save as {filename}_allports
-#gobuster scan will be saved as {filename}_gobuster\n\n\n\name""")
-
-file(filename)
-nmap_scan(host, f_nmap)
-nmap_allports_scan(host, f_allports)
-gobuster_scan(h_gobuster, f_gobuster)
-
