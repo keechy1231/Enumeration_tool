@@ -1,7 +1,9 @@
 # Enumeration_tool
-A tool that will run nmap -sV -sC -Pn, nmap -p- -Pn and gobuster directory scan on any web servers on port 80. 
+A tool that will run nmap -sV -sC, nmap -p- and gobuster directory scan on any web servers on port 80. 
 
-Fist version will mainly concentrate on getting the tool working, then later on I will look at getting more tools and functionality added. 
+Script now works - gobuster file output to work on next - then possibly getting it to run multithreaded (no idea how)
+
+Also need to add functionality to the -q argument to supress any output. 
 
 Initially made to use for Easy CTF boxes and eht eJPT exam. 
 

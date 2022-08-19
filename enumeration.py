@@ -30,7 +30,11 @@ def file(file):
 
 def gobuster_scan(host, outfile):
 	#create the gobuster scan
+<<<<<<< HEAD
 	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlist/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=True , stdin=None, stderr=None, stdout=open(outfile,'w',1)) 
+=======
+	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , e ,'-w' '/usr/share/wordlist/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None) 
+>>>>>>> 041d96464249e9bc3e2e83ab2a514f3d5b26b3ce
 	gobuster
 
 def main(host, file_a, file_b, url, file_c,file_d):
@@ -110,4 +114,15 @@ url = ('http://'+host)
 #gobuster_scan(h_gobuster, f_gobuster)
 #file(filename)
 
+<<<<<<< HEAD
 main(host, f_nmap, f_allports, url, f_gobuster, filename)
+=======
+
+print (f"""Scanning {host} \nnmap version and script scan will be saved as {filename}_nmap\nnmap full port scan will be save as {filename}_allports
+gobuster scan will be saved as {filename}_gobuster\n\n\n\name""")
+
+file(filename)
+nmap_scan(host, f_nmap)
+nmap_allports_scan(host, f_allports)
+gobuster_scan(h_gobuster, f_gobuster)
+>>>>>>> 041d96464249e9bc3e2e83ab2a514f3d5b26b3ce
