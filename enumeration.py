@@ -2,7 +2,7 @@
 #enumerate.py Version 0.5 By Redacted
 #Import required libaries
 
-#todo get gobuster to output to file and terminal - currently only ouputting to file
+#todo add multithreading suppoert so it can run faster
 
 import argparse
 import subprocess
