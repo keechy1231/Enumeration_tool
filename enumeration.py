@@ -29,8 +29,8 @@ def gobuster_scan(host, outfile):
 
 def main(host, file_a, file_b, url, file_c,file_d):
 	#ascii art of some sort to go here?
-	print (f"""Scanning {host} \nnmap version and script scan will be saved as {file_a}_nmap\nnmap full port scan will be saved as {file_b}_allports
-gobuster scan will be saved as {file_c}_gobuster\n\n\n\n""")
+	print (f"""Scanning {host} \nnmap version and script scan will be saved as {file_a}\nnmap full port scan will be saved as {file_b}
+gobuster scan will be saved as {file_c}\n\n\n\n""")
 	file(file_d)
 	nmap_scan(host, file_a)
 	gobuster_scan(url, file_c)
