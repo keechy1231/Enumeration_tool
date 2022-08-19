@@ -24,7 +24,7 @@ def file(file):
 
 def gobuster_scan(host, outfile):
 	#create the gobuster scan
-	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=open(outfile,'w',1)) 
+	gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt', '-o',outfile ], shell=False , stdin=None, stderr=None) 
 	gobuster
 
 def main(host, file_a, file_b, url, file_c,file_d):
