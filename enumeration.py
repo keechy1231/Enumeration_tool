@@ -45,7 +45,7 @@ def nmap_scan(host,outfile, quiet):
 	if quiet is False:
 		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None )
 	else:
-		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None, stdout=('/dev/null') )
+		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None, stdout=subprocess.DEVNULL )
 	nmap
 	
 def nmap_allports_scan(host,outfile,quiet):
@@ -53,7 +53,7 @@ def nmap_allports_scan(host,outfile,quiet):
 	if quiet is False:
 		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None )
 	else:
-		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None, stdout=('/dev/null') )
+		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None, stdout=subprocess.DEVNULL )
 	nmap_allport
 
 #Input arguments start here
