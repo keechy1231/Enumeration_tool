@@ -1,29 +1,33 @@
 #!/bin/python3 
 #enumerate.py Version 0.5 By Keechy1231
+
+#todo add multithreading support so it can run faster
+
+
 #Import required libaries
-
-#todo add multithreading suppoert so it can run faster
-
 import argparse
 import subprocess
 
+#convert argument file to a string and strip unnecessary characters for use in other functions
 def convert_file(file):
 	filename = (str(file)).lstrip("['").rstrip("']")
 	return filename
 
+#convert argument host to a string and strip unnecessary characters for use in other functions 
 def convert_host(host):
 	host = (str(host)).lstrip("['").rstrip("']")
 	return host
 		
-
+#create files in the current directory for the output files of the commands
 def file(file):
 	#create files for the functions to save stdout
 	nmapfile = open(f'{file}_nmap','w+')
 	nmapallports = open(f'{file}_allports','w+')
 	gobusterfile = open(f"{file}_gobuster" , 'w+')
 
+#gobuster command
 def gobuster_scan(host, outfile, quiet):
-	#create the gobuster scan
+	#quiet = -q from arguments
 	if quiet is False:
 		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt', '-o',outfile ], shell=False , stdin=None, stderr=None) 
 	else:
@@ -31,6 +35,7 @@ def gobuster_scan(host, outfile, quiet):
 	
 	gobuster
 
+#main function to start and run the programme. 
 def main(host, file_a, file_b, url, file_c,file_d, quiet):
 	#ascii art of some sort to go here?
 	print (f"""Scanning {host} \nnmap version and script scan will be saved as {file_a}\nnmap full port scan will be saved as {file_b}
@@ -40,6 +45,7 @@ gobuster scan will be saved as {file_c}\n\n\n\n""")
 	gobuster_scan(url, file_c, quiet)
 	nmap_allports_scan(host, file_b, quiet)
 
+#default nmap scan
 def nmap_scan(host,outfile, quiet):
 	#nmap scan 
 	if quiet is False:
@@ -47,7 +53,8 @@ def nmap_scan(host,outfile, quiet):
 	else:
 		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None, stdout=subprocess.DEVNULL )
 	nmap
-	
+
+#nmap all ports scan
 def nmap_allports_scan(host,outfile,quiet):
 	#nmap scan all ports
 	if quiet is False:
@@ -95,6 +102,8 @@ parser.add_argument('--version',
 
 args = parser.parse_args()
 
+
+#everything under here can possibly be cleaned up / moved to functions
 filename = convert_file(args.filename)
 host = convert_host(args.host)
 quiet = args.quiet
@@ -105,5 +114,5 @@ f_gobuster = (str(filename) + '_gobuster')
 url = ('http://'+host)
 
 
-
+#run the programme
 main(host, f_nmap, f_allports, url, f_gobuster, filename, quiet)
