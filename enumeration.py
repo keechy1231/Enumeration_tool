@@ -24,8 +24,6 @@ def gobuster_scan(host, outfile, quiet):
 	#create the gobuster scan
 	if quiet is True:
 		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=open(outfile, 'w', 1)) 
-	elif verbose is True:
-		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '-v', '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=None)
 	else:
 		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt', '-o',outfile ], shell=False , stdin=None, stderr=None)
 
