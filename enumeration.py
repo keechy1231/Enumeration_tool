@@ -1,8 +1,7 @@
 #!/bin/python3 
-#enumerate.py Version 0.5 By Redacted
+#enumerate.py Version 0.6 By Redacted
 #Import required libaries
-
-#todo get gobuster to output to file and terminal - currently only ouputting to file
+#currently only scans port 80, webservers on different ports would need to be scanned manually
 
 import argparse
 import subprocess
@@ -15,7 +14,6 @@ def convert_host(host):
 	host = (str(host)).lstrip("['").rstrip("']")
 	return host
 		
-
 def file(file):
 	#create files for the functions to save stdout
 	nmapfile = open(f'{file}_nmap','w+')
@@ -24,11 +22,13 @@ def file(file):
 
 def gobuster_scan(host, outfile, quiet):
 	#create the gobuster scan
-	if quiet is False:
-		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt', '-o',outfile ], shell=False , stdin=None, stderr=None) 
+	if quiet is True:
+		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=open(outfile, 'w', 1)) 
+	elif verbose is True:
+		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', 'usr/share/wordlists/dirb/big.txt' , '-x' , '-v', '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=None)
 	else:
-		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt'], shell=False , stdin=None, stderr=None, stdout=open(outfile, 'w', 1)) 	
-	
+		gobuster = subprocess.call(['gobuster' , 'dir' , '-u' , host ,'-w', '/usr/share/wordlists/dirb/big.txt' , '-x' , '.php,.html,.txt', '-o',outfile ], shell=False , stdin=None, stderr=None)
+
 	gobuster
 
 def main(host, file_a, file_b, url, file_c,file_d, quiet):
@@ -42,18 +42,23 @@ gobuster scan will be saved as {file_c}\n\n\n\n""")
 
 def nmap_scan(host,outfile, quiet):
 	#nmap scan 
-	if quiet is False:
-		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None )
+	if quiet is True:
+		nmap = subprocess.call(['nmap','-sV','-sC','-oN',outfile,host], shell=False, stdin=None, stderr=None, stdout=subprocess.DEVNULL )
+	elif verbose is True:
+		nmap = subprocess.call(['nmap','-sV','-sC','-oN',outfile,host,'-v'], shell=False, stdin=None, stderr=None )
 	else:
-		nmap = subprocess.call(['nmap','-sV','-sC' , '-oN',outfile,host], shell=False, stdin=None, stderr=None, stdout=subprocess.DEVNULL )
+		nmap = subprocess.call(['nmap','-sV','-sC','-oN',outfile,host], shell=False, stdin=None, stderr=None )
 	nmap
 	
 def nmap_allports_scan(host,outfile,quiet):
 	#nmap scan all ports
-	if quiet is False:
-		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None )
+	if quiet is True:
+		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host, '-p-'], shell=False, stdin=None, stderr=None, stdout=subprocess.DEVNULL )
+	elif verbose is True:
+		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host, '-p-' , '-v'], shell=False, stdin=None, stderr=None )
 	else:
-		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host], shell=False, stdin=None, stderr=None, stdout=subprocess.DEVNULL )
+		nmap_allport= subprocess.call(['nmap' , '-oN' , outfile , host, '-p-'], shell=False, stdin=None, stderr=None )
+		
 	nmap_allport
 
 #Input arguments start here
@@ -98,12 +103,11 @@ args = parser.parse_args()
 filename = convert_file(args.filename)
 host = convert_host(args.host)
 quiet = args.quiet
+verbose = args.verbose
 
 f_nmap = (str(filename) +'_nmap')
 f_allports = (str(filename) + '_allports')
 f_gobuster = (str(filename) + '_gobuster')
 url = ('http://'+host)
-
-
 
 main(host, f_nmap, f_allports, url, f_gobuster, filename, quiet)
