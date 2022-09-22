@@ -1,13 +1,15 @@
 # Enumeration_tool
 A tool that will run nmap -sV -sC, nmap -p- and gobuster directory scan on any web servers on port 80. 
 
-Script now works - gobuster file output to work on next - then possibly getting it to run multithreaded (no idea how)
+-q for quiet mode, which will only output to the filename you specify. 
 
-Also need to add functionality to the -q argument to supress any output. 
+Initially made to use for Easy CTF boxes and the eJPT exam. 
 
-Initially made to use for Easy CTF boxes and eht eJPT exam. 
+I am currently learning python so if you have any suggestions on how I could improve my code plese let me know. 
 
-I am currently learning python so if you have any suhhestions on how I could improve my code plese let me know. 
+
+Next step is to use multithreading and possibly service detection and directory enumeration on ports other than 80. 
+
 
 Thank you
 
